@@ -65,8 +65,8 @@
             <li class="ds-about-link-item"><a href="line://msg/text/<?=urlencode($_share_line)?>" class="ds-about-link ds-line" target="_blank">分享到 Line</a></li>
         </ul>
         <ul class="ds-about-link-list">
-            <li class="ds-about-link-item"><a href="http://www.ptt.cc/" class="ds-about-link" target="_blank">詳細介紹@Ptt</a></li>
-            <li class="ds-about-link-item"><a href="http://www.plurk.com/" class="ds-about-link" target="_blank">相關討論@Plurk</a></li>
+            <li class="ds-about-link-item"><a href="https://www.ptt.cc/bbs/Facebook/M.1437504590.A.339.html" class="ds-about-link" target="_blank">詳細介紹@Ptt</a></li>
+            <li class="ds-about-link-item"><a href="http://www.plurk.com/p/l3zshd" class="ds-about-link" target="_blank">相關討論@Plurk</a></li>
             <li class="ds-about-link-item"><a href="https://github.com/Grassboy/dubSteps" class="ds-about-link" target="_blank">專案原始碼@GitHub</a></li>
         </ul>
         <ul class="ds-about-ref-list">

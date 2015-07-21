@@ -15,8 +15,8 @@
 ![手機情境](http://i.imgur.com/Wx9hIHQ.jpg)
 
 ##相關連結：
- * [詳細介紹@Ptt](http://www.ptt.cc/)
- * [相關討論@Plurk](http://www.plurk.com/)
+ * [詳細介紹@Ptt](https://www.ptt.cc/bbs/Facebook/M.1437504590.A.339.html)
+ * [相關討論@Plurk](http://www.plurk.com/p/l3zshd)
 
 ##相關技術連結：
  * [QRCode: qr.js](http://neocotic.com/qr.js/)

@@ -6,7 +6,8 @@
 ##使用情境圖：
 
 ![所有朋友在全世界的打卡分佈](http://i.imgur.com/2IbTBs6.png)
-![造訪過此景點的朋友們](http://i.imgur.com/8S1vhs5.png) (密集恐懼症患者請小心服用)
+(密集恐懼症患者請小心服用)
+![造訪過此景點的朋友們](http://i.imgur.com/8S1vhs5.png)
 ![點開特定朋友的造訪記錄](http://i.imgur.com/91AoWgw.png)
 
 ##手機使用情境圖：
@@ -14,12 +15,12 @@
 ![手機情境](http://i.imgur.com/Wx9hIHQ.jpg)
 
 ##相關連結：
-[詳細介紹@Ptt](http://www.ptt.cc/)
-[相關討論@Plurk](http://www.plurk.com/)
+ * [詳細介紹@Ptt](http://www.ptt.cc/)
+ * [相關討論@Plurk](http://www.plurk.com/)
 
 ##相關技術連結：
-[QRCode: qr.js](http://neocotic.com/qr.js/)
-[MarkerCluster](https://github.com/googlemaps/js-marker-clusterer)
-[MarkerCluster (delegate version)](http://www.plurk.com/p/l3x1dj)
-[Disable POI InfoWindow](https://gist.github.com/thiphariel/9951998)
+ * [QRCode: qr.js](http://neocotic.com/qr.js/)
+ * [MarkerCluster](https://github.com/googlemaps/js-marker-clusterer)
+ * [MarkerCluster (delegate version)](http://www.plurk.com/p/l3x1dj)
+ * [Disable POI InfoWindow](https://gist.github.com/thiphariel/9951998)
 

@@ -1,0 +1,1260 @@
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "compass/typography/links/link-colors";
+@import "compass/utilities/sprites/base";
+@import "compass/typography/text/replacement";
+@import "compass/typography/text/ellipsis";
+
+@mixin centerBox($width, $height) {
+    width: $width;
+    height: $height;
+    left: 50%;
+    margin-left: $width / -2;
+    top: 50%;
+    margin-top: $height / -2;
+    @media screen and (max-height: $height) {
+        top: 0!important;
+        margin-top: 0!important;
+    }
+    @media screen and (max-width: $width) {
+        left: 0!important;
+        margin-left: 0!important;
+    }
+}
+
+@mixin tail-gradient($height:5px, $bottom:0){
+    &:after {
+        position: absolute;
+        content: ' ';
+        width: 100%; height: $height;
+        background-image: linear-gradient(0deg, white, rgba(white, 0.1));
+        bottom: $bottom;
+        left: 0;
+        z-index: 100;
+    }
+}
+
+@mixin icomoon {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+$color: #4773E1;
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0; padding: 0;
+    font-family: '微軟正黑體';
+}
+.ds-firefox-only, .ds-chrome-only {
+    display: none!important;
+}
+body:not(:-moz-handler-blocked) .ds-firefox-only { //firefox only
+    display: block!important;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) { //chrome only
+    .ds-chrome-only {
+        display: block!important;
+    }
+    .ds-fb-textarea {
+        height: 330px!important;
+    }
+}
+
+
+.ds-top-header {
+    transition: height 0.3s ease-out;
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(white, 0.7);
+    width: 100%;
+    height: 64px;
+    box-shadow: 0 0 15px 15px rgba(white, 0.7);
+    hgroup {
+        width: 600px;
+        float: left;
+        h1, h2 {
+            float: left; 
+        }
+        h1 {
+            font-size: 2em;
+            line-height: 3em;
+            margin: auto 16px;
+            text-shadow: -15px -15px 0 rgba(black, 0.1);
+        }
+        h2 {
+            color: gray;
+            letter-spacing: 5px;
+            margin-top: 48px;
+        }
+    }
+}
+.ds-logo {
+    $size: 120px;
+    width: $size; height: 0; padding-top: $size;
+    margin-top: 0;
+    float: left;
+    background-image: url(../images/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.ds-toolbar {
+    float: right;
+    margin: 0; padding: 0;
+    line-height: 96px;
+    li {
+        $icon-size: 2em;
+        cursor: pointer;
+        list-style: none;
+        float: left;
+        margin: 0 20px;
+        i {
+            line-height: $icon-size;
+            font-size: $icon-size;
+            vertical-align: middle;
+            text-shadow: 0 0 2px rgba(black,0.6);
+            margin: 3px;
+        }
+        label {
+            transition: box-shadow 0.3s ease-in;
+            box-shadow: 0 0 0 rgba(#669,0);
+        }
+        &:hover{
+            i {
+                text-shadow: 0 0 2px rgba(black, 0.4);
+                color: #339;
+            }
+            label {
+                box-shadow: 0 5px 0 rgba(#669, 0.3);
+                color: #339;
+            }
+        }
+    }
+    .ds-help {
+        i {
+            color: rgba(gray, 0.4);
+            text-shadow: none;
+        }
+        &:hover {
+            i {
+                color: rgba(gray, 0.7);
+            }
+        }
+    }
+}
+
+.ds-scale-list {
+    position: fixed;
+    box-sizing: border-box;
+    font-size: 32px;
+    left: 32px;
+    top: 140px;
+    width: 32px;
+    height: auto;
+    padding: 0;
+    z-index: 20;
+}
+.ds-scale-button {
+    position: absolute;
+    left: 0; top: 0;
+}
+.ds-scale-point {
+    transition: all 0.3s ease-in;
+    font-size: 16px;
+    float: left;
+    width: 32px; height: 32px;
+    text-align: center;
+    line-height: 32px;
+    background-color: adjust-color($color, $saturation: -40%);
+    opacity: 0.6;
+    border-radius: 32px;
+    box-sizing: border-box;
+    color: white;
+    transform: scale(0.6);
+    position: absolute;
+    left: 0;
+    &:before {
+        content: attr(data-zoom);
+    }
+    &:nth-child(n+12){
+        visibility: hidden;
+        opacity: 0;
+        top: 13 * 32px - 64px;
+    }
+    &.ds-scale-now {
+        background-color: $color;
+        transform: scale(0.8);
+        opacity: 1;
+        box-shadow: 0 0 3px 3px $color;
+        & + .ds-scale-point {
+            box-shadow: 0 0 2px 2px $color;
+        }
+        & ~ .ds-scale-point {
+            background-color: $color;
+            opacity: 1;
+        }
+    }
+    @for $i from 2 through 12 {
+        &:nth-child(#{$i}) {
+            top: $i*32px - 64px;
+        }
+    }
+}
+.ds-scale-button {
+    position: absolute;
+    @for $i from 2 through 12 {
+        &:nth-child(#{$i}) {
+            top: $i*32px - 60px;
+        }
+    }
+    &:nth-child(n+2) {
+        margin-top: -0.25em;
+    }
+    &:nth-child(n+13) {
+        top: 12 * 32px - 60px;
+    }
+    a {
+        display: inline-block;
+        text-decoration: none;
+    }
+    &:first-child {
+        top: auto;
+        bottom: -0.25em;
+    }
+}
+
+.ds-current-location {
+    $icon-size: 48px;
+    display: inline-block;
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 20;
+    color: gray;
+    text-decoration: none;
+    outline: 0;
+    text-align: center;
+    width: $icon-size;
+    height: $icon-size;
+    font-size: $icon-size * 0.8;
+    line-height: $icon-size;
+    text-shadow: 
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white,
+        0 0 3px white;
+    label {
+        display: none;
+    }
+}
+//map interface
+.customBox-outer {
+  position: absolute;
+  padding:0;
+  overflow:visible;
+}
+.customBox {
+  background: #FFC;
+  border: 1px solid #000;
+  padding: 4px;
+  margin-left: -50%;
+  position: relative;
+  margin-right: 50%;
+  border-radius: 5px;    
+  white-space: normal;
+  word-break: break-all;
+  font-size: 13px;
+  text-align: center;
+  display: inline-block;
+  width: 160px;
+}
+
+
+.ds-info {
+    @include tail-gradient(10px, 5px);
+    font-family: '微軟正黑體';
+    width: 96*3px + 24px;
+    max-height: 96*2px + 10px;
+    padding: 5px;
+    background: white;
+    position: relative;
+    ul {
+        margin: 0; padding: 0;
+        position: relative;
+    }
+    li {
+        margin: 0; padding: 0;
+        list-style: none;
+    }
+    .ds-place-list {
+        margin-bottom: 10px;
+        max-height: 96*2px;
+        overflow: auto;
+        &:before {
+            display: block;
+            color: gray;
+            font-size: 12px;
+            text-align: center;
+            letter-spacing: 3px;
+            content: '此群集下的地點';
+        }
+    }
+    .ds-place-item {
+        @include ellipsis(true);
+        font-size: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease-in, text-shadow 0.3s ease-in;
+        &:hover {
+            color: #558;
+            text-shadow: 2px 2px 2px rgba(navy, 0.3);
+        }
+    }
+    &.ds-place-view {
+        .ds-place-list {
+            top: -36px;
+            height: 48px;
+            display: flex;
+            position: absolute;
+            &:before {
+                display: none;
+            }
+        }
+        .ds-place-item {
+            @include hide-text();
+            width: 21px; height: 34px;
+            background-image: url(https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=|FF0000|000000);
+            &:hover {
+                background-image: url(https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=|FF8800|000000);
+            }
+            &.ds-place-selected {
+                background-image: url(http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7CFFFF00);
+            }
+            &:only-child {
+                display: none;
+            }
+        }
+        .ds-header, .ds-general-view {
+            display: block;
+        }
+    }
+}
+.ds-header {
+    display: none;
+    position: relative;
+}
+.ds-general-view {
+    display: none;
+    overflow: auto;
+    min-height: 72px;
+    max-height: 96*2px - 32px;
+}
+.ds-title-list {
+    height: 40px;
+    overflow: hidden;
+    @include tail-gradient(8px);
+}
+.ds-other-title {
+    @include hide-text();
+    position: absolute;
+    right: 0; top: 0;
+    width: 24px; height: 24px;
+    background-image: url(https://icons.iconarchive.com/icons/iconsmind/outline/24/Next-2-2-icon.png);
+    opacity: 0.6;
+    cursor: pointer;
+    &:hover {
+        opacity: 1;
+    }
+}
+.ds-title-item {
+    @include ellipsis(true);
+    font-size: 20px;
+    line-height: 24px;
+    color: rgba(navy, 0.6);
+    font-weight: bold;
+    &:first-child {
+        color: #558;
+        text-shadow: 2px 2px 2px rgba(navy, 0.3);
+    }
+    .ds-info & {
+        margin-right: 20px;
+    }
+}
+@mixin status-text() {
+    color: gray;
+    letter-spacing: 3px;
+    font-size: 12px;
+    text-align: center;
+    height: 16px;
+}
+.ds-status {
+    @include status-text();
+}
+.ds-info .ds-friend-list {
+    display: flex;
+    margin-bottom: 10px;
+    flex-flow: row wrap;
+}
+.ds-import-file {
+    display: none;
+}
+.ds-friend-item {
+    float:left;
+    flex: 0 1 48px;
+    width: 48px; height: 48px;
+    order: 1;
+    position: relative;
+    &.ds-expanded {
+        flex: 100%;
+        order: 0;
+        width: 100%;
+        height: auto;
+        &:before, &:hover:before {
+            @include status-text();
+            content: '點選月曆，觀看朋友的造訪記錄...';
+            display: block;
+            margin: 10px 0 5px 0;
+            position: static;
+            top: auto; left: auto;
+            padding: 0;
+            background: none;
+        }
+        &:after {
+            @include status-text();
+            content: '其他朋友的造訪記錄';
+            display: block;
+            margin: 10px 0 5px 0;
+            width: 100%;
+            float: left;
+            clear:both;
+        }
+        &:only-child:after {
+            display: none;
+        }
+        img {
+            float: left;
+            padding-left: 96px;
+            width: 0px;
+            height: 96px;
+            background-image: url( attr(data-normal-src) );
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-color: black;
+        }
+    }
+    img {
+        width: 48px;
+    }
+}
+.ds-single-time {
+    margin: 4px;
+    width: 40px; height: 40px;
+    float: left;
+    text-decoration: none;
+    text-align: center;
+    display: none;
+    outline: none;
+    .ds-expanded & {
+        display: block;
+    }
+    box-shadow: 0 0 3px gray;
+    span {
+        margin: 0; padding: 0;
+        display: block;
+    }
+    .ds-time-y {
+        font-size: 8px; line-height: 8px;
+        letter-spacing: 2px;
+        color: #666;
+    }
+    .ds-time-m {
+        font-size: 12px; line-height: 12px;
+        font-weight: bold;
+        background: darken(red, 30%);
+        color: white;
+    }
+    .ds-time-d {
+        font-size: 20px; line-height: 20px;
+        text-shadow: 0 0 3px gray;
+        font-family: 'arial';
+    }
+    &:focus {
+        background: #FFC;
+    }
+}
+.gm-style-iw > div, .gm-style .gm-style-iw {
+    overflow: visible!important;
+}
+.cluster-icon[style*="m1.png"] {
+    -webkit-transition: color 1s ease-out, -webkit-transform 1s ease-out;
+    transition: color 1s ease-out, transform 1s ease-out;
+    transform: rotate(0deg);
+    &:hover {
+        color: rgba(white, 0)!important;
+        transform: rotate(720deg);
+    }
+}
+
+@media screen and (max-width: 1366px) {
+    .ds-toolbar {
+        line-height: 1.2em;
+        li {
+            margin: 5px;
+            label {
+                display: none;
+            }
+        }
+    }
+}
+@media screen and (max-width: 820px) {
+    .ds-top-header {
+        height: 48px;
+        hgroup {
+            width: 300px;
+            h1 {
+                font-size: 1.5em;
+                line-height: 1.5em;
+            }
+            h2 {
+                margin-top: 0;
+                margin-left: 50px;
+            }
+        }
+    }
+    .ds-logo {
+        $size: 64px;
+        width: $size; height: 0; padding-top: $size;
+        &:after {
+            font-size: 12px!important;
+        }
+    }
+}
+@media screen and (min-width: 540px) {
+    .ds-loaded {
+        .ds-toolbar {
+            &:before {
+                @include icomoon;
+                transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+                position: absolute;
+                right: 16px; top: 80px;
+                content: '\e608';
+                display: inline-block;
+                font-size: 36px;
+                transform: translateY(0px);
+                opacity: 0.6;
+            }
+        }
+    }
+    .ds-inactive {
+        &.ds-top-header {
+            top: -120px;
+        }
+        .ds-toolbar {
+            &:before {
+                right: 16px; top: 140px;
+                content: '\e603';
+            }
+        }
+        .ds-logo {
+            position: relative;
+            top: 120px;
+            &:after {
+                content: 'dubSteps';
+                font-size: 20px;
+                width: 100%;
+                position: absolute;
+                text-align: center;
+                bottom: 0;
+                color: darken($color, 20%);
+                text-shadow: 0 0 3px #666;
+            }
+        }
+    }
+}
+@media screen and (max-width: 540px) {
+    .ds-top-header {
+        height: 0px;
+        hgroup {
+            width: 64px;
+            h1, h2 {
+                display: none;
+            }
+        }
+    }
+    .ds-logo {
+        position: relative;
+        &:after {
+            content: 'dubSteps';
+            font-size: 12px;
+            width: 100%;
+            position: absolute;
+            text-align: center;
+            bottom: 0;
+            color: darken($color, 20%);
+            text-shadow: 0 0 3px #666;
+        }
+    }
+    .ds-scale-list {
+        left: 12px;
+    }
+    .ds-toolbar {
+        transition: transform 0.3s ease-in;
+        position: absolute;
+        right: 8px; top: -2px;
+        width: 200px;
+        background: rgba(white, 0.8);
+        padding: 0;
+        border: 2px solid rgba(gray, 0.6);
+        border-radius: 0 0 8px 8px;
+        transform: translateY(-200px);
+        &.ds-active {
+            transform: translateY(0px);
+            &:before {
+                position: absolute;
+                opacity: 0;
+                transform: translateY(-300px);
+            }
+        }
+        &:before {
+            @include icomoon;
+            transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+            position: absolute;
+            right: 16px; top: 220px;
+            display: inline-block;
+            font-size: 36px;
+            content: '\e603';
+            transform: translateY(0px);
+            opacity: 0.6;
+        }
+        li {
+            float: none;
+            font-size: 12px;
+            margin: 0;
+            height: 3em;
+            i {
+                display: inline-block;
+                width: 36px;
+                text-align: center;
+            }
+            label {
+                display: inline-block;
+                font-size: 14px;
+            }
+        }
+        &:after {
+            @include icomoon;
+            margin-top: 24px;
+            display: block;
+            content: '\e608';
+            text-align: center;
+        }
+    }
+}
+
+@media screen and (max-height: 480px) {
+    .ds-top-header {
+        height: 0px;
+        hgroup {
+            width: 64px;
+            h1, h2 {
+                display: none;
+            }
+        }
+    }
+    .ds-logo {
+        $size: 64px;
+        width: $size; height: 0; padding-top: $size;
+        position: relative;
+        &:after {
+            content: 'dubSteps';
+            font-size: 12px;
+            width: 100%;
+            position: absolute;
+            text-align: center;
+            bottom: 0;
+            color: darken($color, 20%);
+            text-shadow: 0 0 3px #666;
+        }
+    }
+    .ds-scale-point {
+        display: none;
+    }
+    $size: 32px;
+    .ds-scale-list {
+        left: 8px;
+        height: $size*2.4;
+        bottom: 50%;
+        margin-bottom: $size*-1.2;
+        top: auto;
+    }
+    .ds-scale-button {
+        display: inline-block;
+        width: $size; height: $size;
+        line-height: $size;
+        border-radius: $size;
+        text-align: center;
+        border: 2px solid black;
+        background: white;
+        &:first-child {
+            top: 0;
+            bottom: auto;
+            right: 0;
+        }
+        &:last-child {
+            top: auto;
+            bottom: 0;
+            margin: 0;
+            left: 0;
+        }
+    }
+}
+%main-dialog {
+    position: absolute;
+    @include centerBox(800px, 500px);
+    transition: 
+        left 0.3s ease-in 0.3s,
+        visibility 0.3s ease-in,
+        opacity 0.3s ease-in,
+        transform 0.3s ease-in;
+    border: 2px solid gray;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(black, 0.3);
+    padding: 20px;
+    box-sizing: border-box;
+    line-height: 1.8em;
+    font-size: 20px;
+    transform: translateY(-80px);
+    opacity: 0;
+    visibility: hidden;
+    left: -1000px;
+    z-index: 190;
+    &.ds-active {
+        transition: 
+            visibility 0.3s ease-in,
+            opacity 0.3s ease-in,
+            transform 0.3s ease-in;
+        left: 50%;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+    }
+}
+.ds-about {
+    @extend %main-dialog;
+}
+.ds-about-logo {
+    $size: 144px;
+    width: $size; height: 0; padding-top: $size;
+    margin: 20px 80px 32px 80px;
+    background-image: url(http://graph.facebook.com/663898857/picture?width=144&height=144);
+    background-size: contain;
+    position: relative;
+    border-radius: 100%;
+    border: 2px solid $color;
+    box-shadow: 0 0 5px gray, 0 0 10px white inset;
+    &:after {
+        content: ' ';
+        width: 128px; height: 128px;
+        background-image: url(../images/logo.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        right: -64px; top: 64px;
+    }
+}
+.ds-about-title {
+    display: block;
+    font-weight: bold;
+    color: $color;
+}
+.ds-xd {
+    position: fixed;
+    bottom: 0; right: 16px;
+    font-size: 8px;
+    color: rgba(gray, 0.4);
+}
+.ds-about-text {
+    width: 50%;
+    line-height: 24px;
+    font-size: 20px;
+    .ds-about-link {
+        color: $color;
+        text-decoration: none;
+        &:hover {
+            color: darken($color, 10%);
+        }
+    }
+}
+.ds-about-fb-import {
+    background: $color;
+    font-size: 16px;
+    border: none;
+    color: white;
+    width: 200px;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: '微軟正黑體';
+    outline: 0;
+    cursor: pointer;
+    &:hover {
+        background: lighten($color, 5%);
+        color: #FFC;
+    }
+    .icon-facebook {
+        font-size: 24px;
+        vertical-align: middle;
+        margin: 0 4px;
+    }
+}
+.ds-about-share-list {
+    width: 50%;
+    text-align: left;
+    position: relative;
+    &:before {
+        content: 'Share with...';
+        position: absolute;
+        left: 0; top: -32px;
+        font-size: 16px;
+        color: gray;
+    }
+    .ds-about-link-item {
+        display: inline-block;
+        margin: 0 16px;
+    }
+    .ds-about-link {
+        transition: transform 0.3s ease-in;
+        $size: 64px;
+        @include hide-text();
+        display: inline-block;
+        width: $size; height: $size;
+        box-shadow: 0 0 5px black;
+        border-radius: 100%;
+        &:hover {
+            transform: translateY(-10px);
+        }
+    }
+}
+.ds-facebook {
+    background: url(../images/facebook.png);
+}
+.ds-line {
+    background: url(../images/line.png);
+}
+.ds-plurk {
+    background: url(../images/plurk.png);
+}
+
+.ds-about-ref-list, .ds-about-link-list {
+    .ds-about-link-item {
+        padding-left: 12px;
+    }
+    .ds-about-link {
+        text-decoration: none;
+        color: darken($color, 10%);
+    }
+}
+.ds-about-link-list {
+    position: absolute;
+    right: 0; top: 64px;
+    width: 43%;
+    &:before {
+        content: 'Related Links';
+        font-size: 16px;
+        color: gray;
+    }
+}
+
+.ds-about-ref-list {
+    position: absolute;
+    right: 0; bottom: 64px;
+    width: 43%;
+    &:before {
+        content: 'Technical Reference';
+        font-size: 16px;
+        color: gray;
+    }
+}
+.ds-about-close {
+    background: none;
+    border: none;
+    position: absolute; 
+    right: 16px; top: 16px;
+    color: gray;
+    opacity: 0.3;
+    cursor: pointer;
+    outline: 0;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+//-------------------------------------------------
+
+.ds-fb-import {
+    @extend %main-dialog;
+}
+.ds-fb-img {
+    box-shadow: 0 0 3px gray;
+    margin: 10px auto;
+    display: block;
+}
+.ds-fb-question, .ds-fb-answer {
+    display: block;
+    font-size: 16px;
+    line-height: 1.4em;
+}
+.ds-fb-question {
+    color: adjust-hue(orange, -20deg);
+    text-decoration: underline;
+    cursor: help;
+}
+.ds-fb-answer {
+    transition: all ease-in 0.3s;
+    color: green;
+    padding: 10px 20px;
+    visibility: hidden;
+    opacity: 0;
+    .ds-fb-question:active ~ &,
+    .ds-fb-question:hover ~ & {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+.ds-fb-step-item {
+    @include clearfix();
+    display: none;
+    height: 380px;
+    &:nth-child(1) .ds-fb-link {
+        background: $color;
+        color: white;
+        padding: 5px;
+        display: inline-block;
+        text-decoration: none;
+        border-radius: 5px;
+        .icon-facebook2 {
+            font-size: 28px; margin:3px;
+            vertical-align: middle;
+        }
+        &:hover {
+            background: lighten($color, 5%);
+            color: #FFC;
+        }
+    }
+    &:nth-child(3) .ds-fb-answer {
+        position: absolute;
+        width: 350px; height: 120px;
+        background: #FFC;
+        border: 1px solid brown;
+        padding: 10px;
+    }
+    &:nth-child(4) .ds-fb-img,
+    &:nth-child(5) .ds-fb-img {
+        float: right;
+        margin: 10px;
+        height: 330px;
+    }
+    &.ds-active {
+        display: block;
+    }
+    .ds-fb-step-title {
+        display: block;
+        font-weight: bold;
+        color: $color;
+    }
+}
+.ds-fb-textarea {
+    width: 45%; height: 100px;
+    display: block;
+    float: right;
+}
+.ds-fb-warn {
+    color: adjust-hue(orange, -40deg);
+    font-size: 16px;
+    line-height: 1.2em;
+    display: block;
+    clear: both;
+}
+.ds-fb-drop-area {
+    border: 5px dashed $color;
+    width: 90%; height: 230px;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 10px;
+}
+.ds-fb-load-file,.ds-fb-load-file-directly {
+    background: $color;
+    font-size: 16px;
+    border: none;
+    color: white;
+    width: 200px;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: '微軟正黑體';
+    outline: 0;
+    &:hover {
+        background: lighten($color, 5%);
+        color: #FFC;
+    }
+}
+.ds-fb-load-file-directly .icon-map {
+    font-size: 20px;
+    margin: 3px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+.ds-fb-load-file {
+    font-size: 24px;
+    display: block;
+    width: 200px;
+    margin: 80px auto;
+    .ds-drag-area.ds-active ~ .ds-fb-import & {
+        display: none;
+    }
+}
+.ds-fb-prev, .ds-fb-next {
+    border: none;
+    background: $color;
+    font-size: 20px;
+    color: white;
+    font-family: '微軟正黑體';
+    width: 300px;
+    margin-top: 50px;
+}
+.ds-fb-prev {
+    float:left;
+}
+.ds-fb-next {
+    float:right;
+}
+.ds-fb-close {
+    background: none;
+    border: none;
+    position: absolute; 
+    right: 16px; top: 16px;
+    color: gray;
+    opacity: 0.3;
+    cursor: pointer;
+    outline: 0;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+.ds-drag-area {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0; top: 0;
+    background: rgba(white, 0.3);
+    text-align: center;
+    color: black;
+    line-height: calc(100% - 20px);
+    z-index: 20000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    &.ds-active {
+        display: flex;
+    }
+    &:after {
+        content: '載入打卡資訊';
+        font-size: 72px;
+        letter-spacing: 20px;
+        text-shadow: 
+            2px 0px 0px white,
+            0px 2px 0px white,
+            -2px 0px 0px white,
+            0px -2px 0px white;
+        color: lighten($color, 10%);
+    }
+}
+.ds-export-iw {
+    font-size: 12px;
+    color: gray;
+    font-family: '微軟正黑體';
+    .ds-export-fn-list {
+        margin-top: 10px;
+        text-align: center;
+    }
+    .ds-export-fn {
+        color: black;
+        transition: text-shadow 0.3s ease-in;
+        cursor: pointer;
+        font-weight: bold;
+        padding: 3px;
+        line-height: 30px;
+        display: inline-block;
+        margin: 0 3px;
+        &:hover {
+            text-shadow: 0 0 3px $color;
+        }
+    }
+    [class^="icon-"] {
+        font-weight: normal;
+        font-size: 24px;
+        vertical-align: middle;
+    }
+}
+.ds-progress-bar {
+    display: none;
+    position: fixed;
+    background: rgba($color, 0.1);
+    z-index: 200;
+    height: 4px;
+    width: 100%;
+    top: -1px;
+    &.ds-active {
+        display: block;
+    }
+}
+.ds-progress-bar-inner {
+    height: 100%; width: 0;
+    background: $color;
+    border-radius: 0 10px 10px 0;
+    position: relative;
+    box-shadow: 0 0 5px $color;
+
+    &:after, &:before {
+        width: 20px; height: 100%;
+        content: ' ';
+        display: inline-block;
+        position: absolute;
+        right:0;top:0;
+        background: $color;
+        box-shadow: 0 0 5px $color;
+        transform: rotate(3deg) translateY(-2px);
+        transform-origin: left center;
+    }
+    &:before {
+        right: 2px; top: 2px;
+        background: $color;
+        box-shadow: 0 0 5px $color;
+        transform: rotate(5deg) translateY(-2px) translateX(1px);
+    }
+}
+.ds-upload-result {
+    position: fixed;
+    z-index: 200;
+    height: 400px;
+    background-image: linear-gradient(0deg, rgba(white, 0), rgba(white, 0.8) 30%, rgba(white, 0.8) 70%, rgba(white, 0));
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    margin-top: -200px;
+    left: -10000px;
+    transform: translateY(-80px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        left 0.3s ease-in 0.3s,
+        visibility 0.3s ease-in,
+        opacity 0.3s ease-in,
+        transform 0.3s ease-in;
+    &.ds-active {
+        transition: 
+            visibility 0.3s ease-in,
+            opacity 0.3s ease-in,
+            transform 0.3s ease-in;
+        left: 0;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+    }
+}
+.ds-upload-canvas {
+    display: block;
+}
+.ds-upload-title {
+    font-size: 36px;
+    letter-spacing: 3px;
+    line-height: 64px;
+    font-weight: bold;
+    text-shadow: 
+        1px 0px 0px white,
+        0px 1px 0px white,
+        -1px 0px 0px white,
+        0px -1px 0px white;
+    color: darken($color, 10%);
+}
+.ds-upload-section {
+    font-weight: bold;
+    color: #666;
+    text-shadow: 
+        1px 0px 0px white,
+        0px 1px 0px white,
+        -1px 0px 0px white,
+        0px -1px 0px white;
+    font-size: 24px;
+    line-height: 36px;
+}
+.ds-upload-canvas {
+    margin: 3px auto;
+    box-shadow: 0 0 3px white;
+}
+.ds-upload-url {
+    font-size: 24px;
+    border-radius: 5px;
+    color: darken($color, 20%);
+    border: 2px solid gray;
+    box-shadow: 0 0 5px $color inset;
+    vertical-align: middle;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 3px;
+}
+.ds-upload-link {
+    text-decoration: none;
+    font-size: 24px; line-height: 36px;
+    width: 36px; height: 36px;
+    vertical-align: middle;
+    background: $color;
+    color: white;
+    text-shadow: 0 -1px 0 black;
+    display: inline-block;
+    margin: 3px;
+    border-radius: 5px;
+    &:hover {
+        background: lighten($color, 5%);
+        color: #FFC;
+    }
+}
+.ds-upload-close {
+    border: none;
+    background: $color;
+    font-size: 20px;
+    color: white;
+    font-family: '微軟正黑體';
+    width: 48px;
+    height: 36px;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+.fb-like {
+    transition: transform 0.3s ease-in;
+    position: fixed;
+    border: none;
+    width: 80px;
+    height: 24px;
+    bottom: 32px;
+    right: 72px;
+}
